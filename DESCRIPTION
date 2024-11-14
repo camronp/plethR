@@ -1,7 +1,7 @@
-Package: wbp
+Package: plethR
 Type: Package
 Title: What the Package Does (Title Case)
-Version: 1.0.0
+Version: 1.0.1
 Author: Camron Pearce, PhD
 Maintainer: The package maintainer <camronpearce@gmail.com>
 Description: More about what it does (maybe more than one line)
