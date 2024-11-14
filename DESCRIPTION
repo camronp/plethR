@@ -1,0 +1,21 @@
+Package: wbp
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 1.0.0
+Author: Camron Pearce, PhD
+Maintainer: The package maintainer <camronpearce@gmail.com>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: N/A
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
+Imports: 
+    tidyverse,
+    readxl,
+    dplyr,
+    ggplot2,
+    zoo,
+    pheatmap,
+    extrafont,
+    RColorBrewer
