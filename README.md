@@ -19,3 +19,5 @@ install.packages("devtools")
 
 # Install plethR from GitHub
 devtools::install_github("camronp/plethR")
+```
+Updates pushed out monthly
