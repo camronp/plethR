@@ -33,7 +33,7 @@
 #' auc_results <- auc_by_parameter(groups_merged_named)
 #'
 #' # Calculate AUC and normalize by the specified group
-#' auc_results_normalized <- auc_by_parameter(groups_merged_named, group_to_normalize = "Uninfected Wildtype")
+#' auc_results_normalized <- auc_by_parameter(groups_merged_named, group_to_normalize = "Group A")
 #'
 #' @export
 
