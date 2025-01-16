@@ -4,7 +4,13 @@
 \alias{wbp_pca_plot}
 \title{PCA Plot with User Defined K-means Clustering and Optional Saving}
 \usage{
-wbp_pca_plot(df_list, num_clusters = 4, text_size = 5, save_plots = FALSE)
+wbp_pca_plot(
+  df_list,
+  num_clusters = 4,
+  text_size = 5,
+  save_plots = FALSE,
+  random_seed = 2
+)
 }
 \arguments{
 \item{df_list}{Input the object output from 'sheets_into_list()' step. Each data frame should contain numeric columns only.}
@@ -14,6 +20,8 @@ wbp_pca_plot(df_list, num_clusters = 4, text_size = 5, save_plots = FALSE)
 \item{text_size}{Numeric value for the text size of labels on the plot. Default is 5.}
 
 \item{save_plots}{Logical. If `TRUE`, saves the plot as "pca_plot.png" in the current directory. Default is `FALSE`.}
+
+\item{random_seed}{Integer specifiying the random seed for reproducibility. Default is 1. Required because K-means algorithm involves random initialization step for cluster centroids, which can lead to different results each run.}
 }
 \value{
 A ggplot object showing the PCA plot with clusters and ellipses.

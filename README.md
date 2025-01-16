@@ -21,3 +21,4 @@ install.packages("devtools")
 devtools::install_github("camronp/plethR")
 ```
 Updates pushed out monthly
+- Updated 1/16/2025
