@@ -92,5 +92,3 @@ plot_by_parameter <- function(groups_merged_named, rolling_average = NULL, save_
   return(plot_list)
 }
 
-
-#plot_by_parameter(groups_merged_named, rolling_average = 5, save_plots = FALSE)

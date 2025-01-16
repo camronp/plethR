@@ -83,5 +83,5 @@ auc_wbp_heatmap <- function(auc_results_normalized,
   }
 }
 
-#auc_wbp_heatmap(auc_results_normalized, group_to_remove = "Uninfected Wildtype", remove_parameters = c("Comp", "EEP"), main_title = "Test", save_heatmap = FALSE)
+#
 

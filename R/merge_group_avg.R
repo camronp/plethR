@@ -49,6 +49,3 @@ merge_group_avg <- function(df_list_clean, group_identities, group_names = NULL)
   return(groups_merged)
 }
 
-
-#groups_merged <- merge_group_avg(cp_df_list_summarized, group_identities)
-#groups_merged_named <- merge_group_avg(cp_df_list_summarized, group_identities, group_names)

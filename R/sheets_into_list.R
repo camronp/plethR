@@ -84,7 +84,4 @@ sheets_into_list <- function(excel_file, remove_apnea = FALSE,
   return(df_list)
 }
 
-#cp_df_list_summarized <- sheets_into_list(excel_file, remove_apnea = TRUE, remove_na = TRUE, date_average = TRUE)
-
-#cp_df_list <- sheets_into_list(excel_file, remove_apnea = TRUE, clean_time = TRUE, remove_na = TRUE)
 

@@ -71,6 +71,4 @@ wbp_pca_plot <- function(df_list, num_clusters = 4, text_size = 5, save_plots = 
   return(pca_plot_ellipse)
 }
 
-# Example usage:
-#wbp_pca_plot(cp_df_list_summarized, num_clusters = 4, text_size = 4, save_plots = TRUE)
 

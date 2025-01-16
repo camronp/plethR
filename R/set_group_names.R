@@ -24,6 +24,5 @@ set_group_names <- function(names_vector) {
   return(names_vector)
 }
 
-group_names <- set_group_names(c("Uninfected Wildtype", "Uninfected Benac","Infected Benac", "Infected Wildtype"))
 
 
