@@ -75,5 +75,4 @@ wbp_pca_plot <- function(df_list, num_clusters = 4, text_size = 5, save_plots = 
   return(pca_plot_ellipse)
 }
 
-wbp_pca_plot(cp05_clean, num_clusters = 4)
 
