@@ -1,5 +1,9 @@
 
-
+#' Install and Load Required Packages
+#'
+#' This function installs and loads all the necessary packages for the package development and usage.
+#'
+#' @export
 
 install_load_packages <- function() {
 
