@@ -8,6 +8,7 @@
 #' @param num_clusters Integer specifying the number of clusters for k-means clustering. Default is 4.
 #' @param text_size Numeric value for the text size of labels on the plot. Default is 5.
 #' @param save_plots Logical. If `TRUE`, saves the plot as "pca_plot.png" in the current directory. Default is `FALSE`.
+#' @param random_seed Integer specifiying the random seed for reproducibility. Default is 1. Required because K-means algorithm involves random initialization step for cluster centroids, which can lead to different results each run.
 #'
 #' @return A ggplot object showing the PCA plot with clusters and ellipses.
 #'
@@ -17,7 +18,7 @@
 #'
 #' @export
 
-wbp_pca_plot <- function(df_list, num_clusters = 4, text_size = 5, save_plots = FALSE) {
+wbp_pca_plot <- function(df_list, num_clusters = 4, text_size = 5, save_plots = FALSE, random_seed = 2) {
 
   combined_df <- bind_rows(lapply(names(df_list), function(name) {
     df <- df_list[[name]]
@@ -34,6 +35,9 @@ wbp_pca_plot <- function(df_list, num_clusters = 4, text_size = 5, save_plots = 
 
   plot_df <- data.frame(ID = 1:length(df_list))
   plot_df[, paste0("PC", 1:4)] <- pca_4_data
+
+  #set random seed for reproducibility
+  set.seed(random_seed)
 
   kmeans_result <- kmeans(plot_df[, c("PC1", "PC2")], centers = num_clusters)
   plot_df$Cluster <- as.factor(kmeans_result$cluster)
@@ -71,4 +75,5 @@ wbp_pca_plot <- function(df_list, num_clusters = 4, text_size = 5, save_plots = 
   return(pca_plot_ellipse)
 }
 
+wbp_pca_plot(cp05_clean, num_clusters = 4)
 
