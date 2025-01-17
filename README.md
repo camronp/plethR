@@ -21,4 +21,5 @@ install.packages("devtools")
 devtools::install_github("camronp/plethR")
 ```
 Updates pushed out monthly
-- Updated 1/16/2025
+- Update 1/16/2025 for some minor bug fixes, add custom_define_group function, and fix PCA plotting for consistency
+- update 1/17/2025 to include export_as_clean_df and renamed_group_df functions

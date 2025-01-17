@@ -39,7 +39,7 @@ If `save_heatmap` is `TRUE`, the heatmap is saved as a PNG file with the title s
 auc_wbp_heatmap(auc_results_normalized)
 
 # Generate and display a heatmap, removing specific group and parameters, and saving the heatmap as a PNG file
-auc_wbp_heatmap(auc_results_normalized, group_to_remove = "Uninfected Wildtype",
+auc_wbp_heatmap(auc_results_normalized, group_to_remove = "Group A",
                 remove_parameters = c("Comp", "EEP"), main_title = "Test", save_heatmap = TRUE)
 
 }
