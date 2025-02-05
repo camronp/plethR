@@ -40,21 +40,25 @@ rename_grouped_dataframes <- function(df_list_clean, group_mapping, group_names)
     stop("group_names must be a character vector.")
   }
 
-  # Initialize a named list to hold renamed dataframes
-  renamed_dfs <- list()
+  # Initialize a named list to hold grouped dataframes
+  grouped_dfs <- list()
 
   # Iterate over each group in the mapping
   for (i in seq_along(group_mapping)) {
     group_name <- group_names[i]  # Get the current group name
     sheet_indices <- group_mapping[[i]]  # Get the sheet indices for this group
 
-    # Iterate through each sheet index and assign the new name
-    for (j in seq_along(sheet_indices)) {
-      sheet_index <- sheet_indices[j]
-      new_name <- sprintf("%s %d", group_name, j)  # Create name with suffix
-      renamed_dfs[[new_name]] <- df_list_clean[[sheet_index]]  # Assign the dataframe
+    # Create a list for each group
+    grouped_dfs[[group_name]] <- list()
+
+    # Iterate through each sheet index and assign the dataframe to the appropriate group
+    for (sheet_index in sheet_indices) {
+      df <- df_list_clean[[sheet_index]]  # Get the dataframe by index
+
+      # Add the dataframe to the corresponding group
+      grouped_dfs[[group_name]] <- append(grouped_dfs[[group_name]], list(df))
     }
   }
 
-  return(renamed_dfs)  # Return the renamed dataframes as a named list
+  return(grouped_dfs)  # Return the grouped dataframes
 }
