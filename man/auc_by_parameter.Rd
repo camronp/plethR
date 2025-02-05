@@ -36,7 +36,7 @@ parameter. The function returns a data frame containing the AUC values, AUC stan
 normalized AUC values.
 }
 \examples{
-# Assuming `groups_merged_named` is a list of data frames, each containing Time and parameters
+# Assuming groups_merged_named is a list of data frames, each containing Time and parameters
 auc_results <- auc_by_parameter(groups_merged_named)
 
 # Calculate AUC and normalize by the specified group
