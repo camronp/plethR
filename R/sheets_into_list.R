@@ -54,7 +54,8 @@ sheets_into_list <- function(excel_file, remove_apnea = FALSE,
 
   df_list <- lapply(df_list, function(df) {
     df %>%
-      select(-c(Tbody, Subject, Phase, Rinx, RH, Tc, Recording, Alarms))
+      select(-all_of(intersect(names(df), c("Tbody", "Subject", "Phase", "Rinx",
+                                            "RH", "Tc", "Recording", "Alarms", "BFCF"))))
   })
 
   # Optionally clean the Time column
