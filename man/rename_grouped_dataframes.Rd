@@ -2,44 +2,62 @@
 % Please edit documentation in R/renamed_group_df.R
 \name{rename_grouped_dataframes}
 \alias{rename_grouped_dataframes}
-\title{Rename Data Frames by Group and Parameter}
+\title{Rename and Optionally Unnest Data Frames by Group and Index}
 \usage{
-rename_grouped_dataframes(df_list_clean, group_mapping, group_names)
+rename_grouped_dataframes(
+  df_list_clean,
+  group_mapping,
+  group_names,
+  add_subject_column = FALSE,
+  unnested = FALSE
+)
 }
 \arguments{
-\item{df_list_clean}{A list of data frames, each representing a dataset to be renamed.}
+\item{df_list_clean}{A list of data frames to be renamed.}
 
-\item{group_mapping}{A named list where each group (name) is associated with a numeric vector of sheet indices.}
+\item{group_mapping}{A named list where each group name maps to a numeric vector of sheet indices.}
 
-\item{group_names}{A character vector of custom names for the groups. The length must match the number of groups in
-`group_mapping`.}
+\item{group_names}{A character vector of custom names for the groups. The length must match the number of groups in `group_mapping`.}
+
+\item{add_subject_column}{A logical value indicating whether to add a 'Subject' column to each data frame. Default is `FALSE`.}
+
+\item{unnested}{A logical value indicating whether to fully unnest the grouped data frames. If `TRUE`, all data frames within the groups will be unnested and combined into one. Default is `FALSE`.}
 }
 \value{
-A named list of data frames with updated names.
+A list of renamed data frames grouped by their custom names. If `unnested = TRUE`, a single ungrouped data frame
+combining all data frames will be returned.
 }
 \description{
-This function assigns custom names to data frames in a list based on user-defined group and sheet mappings.
-It appends numeric suffixes to distinguish data frames within the same group and ensures no duplicate names are assigned.
+This function assigns custom names to data frames in a list based on user-defined group mappings and sheet indices.
+It ensures unique names by appending numeric suffixes to the group names. Additionally, it provides an option to
+unnest the data frames either partially (for specific groups) or fully (combining all unnested data frames into one).
 }
 \details{
-This function renames individual data frames in the input list (`df_list_clean`) according to the user-defined group names
-and their respective sheet indices from `group_mapping`. The new names are constructed by appending a numeric suffix to the
-group name (e.g., "Group A 1", "Group A 2"). This is particularly useful for workflows where merging is not desired,
-but clear and consistent naming of data frames is needed.
+This function renames data frames in `df_list_clean` by combining the specified `group_names` with numeric suffixes
+corresponding to their sheet indices in `group_mapping`. The resulting names, such as "Group A 1" and "Group B 2", provide
+clear and consistent identifiers for each data frame, especially in workflows where merging is unnecessary but organization
+is crucial.
+
+Additionally, the function offers the ability to unnest the data frames. If `unnested = TRUE`, the function will combine
+all data frames in each group and then merge them into a single final unnest. Alternatively, if `unnested = FALSE`,
+it will return the data frames grouped by their original group names.
 }
 \examples{
-# Example data frame list
-df_list <- list(df1, df2, df3, df4)
+# Example: Input data frame list
+df_list_clean <- list(df1, df2, df3, df4)
 
-# Define group mappings and names
+# Define group mappings and custom names
 group_mapping <- list("Group A" = c(1, 2), "Group B" = c(3, 4))
 group_names <- c("Group A", "Group B")
 
-# Rename the data frames
-renamed_dfs <- rename_grouped_dataframes(df_list, group_mapping, group_names)
+# Rename data frames with no unnesting
+renamed_dfs <- rename_grouped_dataframes(df_list_clean, group_mapping, group_names)
 
-# Access renamed data frames
+# Check renamed data frames
 names(renamed_dfs)
-# [1] "Group A 1" "Group A 2" "Group B 1" "Group B 2"
+# Output: "Group A 1" "Group A 2" "Group B 1" "Group B 2"
+
+# Rename and unnest all data frames
+final_unnested <- rename_grouped_dataframes(df_list_clean, group_mapping, group_names, unnested = TRUE)
 
 }
