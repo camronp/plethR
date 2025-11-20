@@ -84,5 +84,3 @@ sheets_into_list <- function(excel_file, remove_apnea = FALSE,
 
   return(df_list)
 }
-
-

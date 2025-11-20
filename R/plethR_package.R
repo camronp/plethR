@@ -1,0 +1,58 @@
+#' plethR: Analysis and Visualization of Whole Body Plethysmography Data
+#'
+#' @description
+#' plethR provides a complete workflow for analyzing respiratory function data from
+#' DSI whole body plethysmography systems. The package includes tools for data import,
+#' processing, statistical analysis, and publication-quality visualization.
+#'
+#' @section Main Functions:
+#' 
+#' **Data Import & Organization:**
+#' \itemize{
+#'   \item \code{\link{sheets_into_list}}: Import multi-sheet Excel files from DSI systems
+#'   \item \code{\link{set_group_names}}: Define experimental group labels
+#'   \item \code{\link{assign_groups_interactive}}: Interactively assign subjects to groups
+#'   \item \code{\link{organize_by_groups}}: Organize subjects into experimental groups
+#' }
+#' 
+#' **Data Analysis:**
+#' \itemize{
+#'   \item \code{\link{calculate_group_averages}}: Compute group means across time
+#'   \item \code{\link{calculate_auc}}: Calculate Area Under the Curve with normalization
+#'   \item \code{\link{plot_pca}}: Principal Component Analysis with clustering
+#' }
+#' 
+#' **Visualization:**
+#' \itemize{
+#'   \item \code{\link{plot_wbp_timeseries}}: Time series plots with smoothing options
+#'   \item \code{\link{plot_auc_bars}}: Publication-quality bar plots with statistics
+#'   \item \code{\link{plot_auc_heatmap}}: Hierarchical clustering heatmaps
+#' }
+#' 
+#' **Data Export:**
+#' \itemize{
+#'   \item \code{\link{export_to_excel}}: Export processed data to Excel
+#' }
+#'
+#' @section Typical Workflow:
+#' \preformatted{
+#' # 1. Import data
+#' df_list <- sheets_into_list("data.xlsx", clean_time = TRUE)
+#' 
+#' # 2. Define groups
+#' groups <- set_group_names("Control", "Treated")
+#' mapping <- assign_groups_interactive(groups, df_list)
+#' 
+#' # 3. Calculate group averages
+#' averages <- calculate_group_averages(df_list, mapping)
+#' 
+#' # 4. Analyze and visualize
+#' auc <- calculate_auc(averages, normalize_to = "Control")
+#' plots <- plot_auc_bars(auc, show_stats = TRUE, reference_group = "Control")
+#' }
+#'
+#' @docType package
+#' @name plethR-package
+#' @aliases plethR
+#' @keywords internal
+"_PACKAGE"

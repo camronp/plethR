@@ -4,20 +4,27 @@
 \alias{set_group_names}
 \title{Set Group Names}
 \usage{
-set_group_names(names_vector)
+set_group_names(...)
 }
 \arguments{
-\item{names_vector}{A character vector containing group names.}
+\item{...}{Individual group names as character strings, or a single character vector.}
 }
 \value{
-The same character vector passed as input, containing the group names.
+A character vector containing the group names.
 }
 \description{
-This function takes a character vector and returns it as-is, with an error check to ensure the input is a character vector.
+Creates a character vector of group names from individual arguments or a vector.
+This is a convenience function for defining experimental group labels.
 }
 \examples{
-# Example usage:
-group_names <- set_group_names(c("Uninfected Wildtype", "Uninfected Benac", "Infected Benac", "Infected Wildtype"))
-print(group_names)
+# Pass names individually (no c() needed)
+group_names <- set_group_names("Uninfected Wildtype", "Uninfected Benac",
+                               "Infected Benac", "Infected Wildtype")
+
+# Or pass as a vector (still works)
+group_names <- set_group_names(c("Control", "Treated"))
+
+# Single group
+group_names <- set_group_names("Control")
 
 }
