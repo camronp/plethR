@@ -7,40 +7,27 @@
 #' @param parameters Character vector of parameters to plot. If `NULL`, plots all. Default is `NULL`.
 #' @param group_order Character vector specifying the order of groups on x-axis.
 #'   If `NULL`, uses alphabetical order. Default is `NULL`.
-#' @param plot_type Character string specifying plot organization:
-#'   - "separate": One plot per parameter (default)
-#'   - "combined": All parameters in one multi-panel figure
-#' @param value_type Character string specifying which values to plot:
-#'   - "auc": Plot raw AUC values (default)
-#'   - "normalized": Plot normalized AUC (fold change)
-#'   - "both": Create both types of plots
-#' @param y_axis_start Character string or numeric specifying y-axis starting point:
-#'   - "smart": Starts at 80% of minimum value (default, shows differences better)
-#'   - "zero": Always starts at zero (traditional)
-#'   - numeric: Custom starting value
+#' @param plot_type Character string specifying plot organization.
+#'   Options: "separate" (one plot per parameter, default) or "combined" (all parameters in one multi-panel figure).
+#' @param value_type Character string specifying which values to plot.
+#'   Options: "auc" (raw AUC values, default), "normalized" (fold change), or "both" (create both types).
+#' @param y_axis_start Character string or numeric specifying y-axis starting point.
+#'   Options: "smart" (starts at 80% of minimum, default), "zero" (traditional), or numeric value.
 #' @param y_expand_top Numeric specifying fraction to expand y-axis above bars for labels.
 #'   Default is 0.1.
 #' @param y_expand_bottom Numeric specifying fraction to expand y-axis below minimum.
 #'   Default is 0.05. Ignored if y_axis_start = "zero".
-#' @param error_bars Character string specifying error bar type:
-#'   - "sd": Standard deviation (default)
-#'   - "se": Standard error
-#'   - "ci": 95% confidence interval
-#'   - "none": No error bars
+#' @param error_bars Character string specifying error bar type.
+#'   Options: "sd" (standard deviation, default), "se" (standard error), "ci" (95% confidence interval), or "none".
 #' @param show_values Logical; if `TRUE`, displays values on top of bars. Default is `TRUE`.
 #' @param value_format Character string for value formatting. Default is "%.1f".
 #' @param show_stats Logical; if `TRUE`, adds statistical comparison indicators. Default is `FALSE`.
 #' @param reference_group Character string specifying reference group for comparisons.
 #'   Required if `show_stats = TRUE`. Default is `NULL`.
-#' @param stat_test Character string specifying statistical test:
-#'   - "auto": Automatically determine based on data (default)
-#'   - "ttest": Student's t-test
-#'   - "wilcoxon": Wilcoxon rank-sum test
-#' @param color_palette Character string specifying color scheme. Options:
-#'   - "Set1", "Set2", "Dark2" (ColorBrewer)
-#'   - "viridis", "plasma", "magma"
-#'   - "grayscale": For black & white publications
-#'   Default is "Set1".
+#' @param stat_test Character string specifying statistical test.
+#'   Options: "auto" (automatically determine, default), "ttest", or "wilcoxon".
+#' @param color_palette Character string specifying color scheme.
+#'   Options: "Set1", "Set2", "Dark2", "viridis", "plasma", "magma", or "grayscale". Default is "Set1".
 #' @param bar_width Numeric specifying bar width (0-1). Default is 0.7.
 #' @param font_size Numeric specifying base font size in points. Default is 12.
 #' @param aspect_ratio Numeric specifying height/width ratio for plots. Default is 0.75.
@@ -51,14 +38,11 @@
 #' @param height Numeric specifying plot height in inches. Default is NULL (auto-calculated).
 #' @param dpi Numeric specifying resolution for saved plots. Default is 300.
 #'
-#' @return A list of ggplot objects.
+#' @return A named list of ggplot objects, one per parameter or value type.
 #'
 #' @details
-#' The "smart" y-axis scaling improves visualization by:
-#' - Starting the y-axis at 80% of the minimum value instead of zero
-#' - Making small differences between groups more visible
-#' - Reducing wasted white space
-#' - Still showing the full range of variation
+#' The "smart" y-axis scaling improves visualization by starting the y-axis at 80% of the minimum value
+#' instead of zero, making small differences between groups more visible while reducing wasted white space.
 #'
 #' Use `group_order` to arrange groups in a meaningful order (e.g., control first,
 #' then treatments in increasing dose or severity).

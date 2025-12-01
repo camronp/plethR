@@ -216,7 +216,7 @@ print(pca$variance)
 If you use plethR in your research, please cite:
 
 ```
-Camron Pearce (2024). plethR: Analysis and Visualization of Whole Body Plethysmography Data. 
+Camron Pearce (2025). plethR: Analysis and Visualization of Whole Body Plethysmography Data. 
 R package version 1.1.0. https://github.com/camronp/plethR
 ```
 

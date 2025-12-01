@@ -33,9 +33,8 @@ plot_auc_heatmap(
 \arguments{
 \item{auc_results}{Data frame from `calculate_auc()` containing AUC values.}
 
-\item{value_type}{Character string specifying which values to plot:
-- "normalized": Plot normalized AUC values (default, requires normalization)
-- "auc": Plot raw AUC values}
+\item{value_type}{Character string specifying which values to plot.
+Options: "normalized" (plot normalized AUC values, default) or "auc" (plot raw AUC values).}
 
 \item{exclude_groups}{Character vector of group names to exclude. Default is `NULL`.}
 
@@ -48,22 +47,17 @@ Default is `NULL` (includes all).}
 
 \item{cluster_cols}{Logical; if `TRUE`, clusters groups by similarity. Default is `TRUE`.}
 
-\item{clustering_method}{Character string specifying clustering method:
-"complete", "average", "single", "ward.D", "ward.D2". Default is "complete".}
+\item{clustering_method}{Character string specifying clustering method.
+Options: "complete" (default), "average", "single", "ward.D", "ward.D2".}
 
-\item{clustering_distance}{Character string specifying distance metric:
-"euclidean", "correlation", "manhattan". Default is "euclidean".}
+\item{clustering_distance}{Character string specifying distance metric.
+Options: "euclidean" (default), "correlation", "manhattan".}
 
-\item{color_scheme}{Character string specifying color palette:
-- "RdYlBu": Red-Yellow-Blue diverging (default)
-- "RdBu": Red-Blue diverging
-- "viridis", "plasma", "magma": Sequential
-- "PRGn", "BrBG": Colorblind-friendly diverging}
+\item{color_scheme}{Character string specifying color palette.
+Options: "RdYlBu" (Red-Yellow-Blue diverging, default), "RdBu", "viridis", "plasma", "magma", "PRGn", "BrBG".}
 
-\item{scale_data}{Character string specifying scaling:
-- "none": No scaling (default for normalized data)
-- "row": Scale each parameter (row) to mean=0, sd=1
-- "column": Scale each group (column) to mean=0, sd=1}
+\item{scale_data}{Character string specifying scaling.
+Options: "none" (default for normalized data), "row" (scale each parameter), "column" (scale each group).}
 
 \item{show_values}{Logical; if `TRUE`, displays values in cells. Default is `FALSE`.}
 
@@ -97,12 +91,9 @@ Generates a heatmap of AUC values (raw or normalized) across parameters and grou
 with hierarchical clustering and customizable aesthetics.
 }
 \details{
-Creates a publication-quality heatmap with:
-- Hierarchical clustering of parameters and/or groups
-- Multiple color schemes including colorblind-friendly options
-- Optional value display in cells
-- Flexible filtering of groups and parameters
-- High-resolution output
+Creates a publication-quality heatmap with hierarchical clustering of parameters and/or groups,
+multiple color schemes including colorblind-friendly options, optional value display in cells,
+flexible filtering of groups and parameters, and high-resolution output.
 
 For normalized data, values represent fold-change relative to reference group.
 Values > 1 indicate increase, < 1 indicate decrease.

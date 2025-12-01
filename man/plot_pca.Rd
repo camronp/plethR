@@ -45,13 +45,13 @@ numeric columns. Default is `NULL`.}
 
 \item{num_clusters}{Integer specifying number of k-means clusters. Default is 4.}
 
-\item{color_by}{Character string specifying coloring:
-- "group": Color by experimental group (default)
-- "cluster": Color by k-means cluster}
+\item{color_by}{Character string specifying coloring.
+Options: "group" (color by experimental group, default) or "cluster" (color by k-means cluster).}
 
 \item{show_ellipses}{Logical; if `TRUE`, shows confidence ellipses around groups. Default is `TRUE`.}
 
-\item{ellipse_type}{Character string: "norm", "t", or "euclid". Default is "norm".}
+\item{ellipse_type}{Character string specifying ellipse type.
+Options: "norm", "t", or "euclid". Default is "norm".}
 
 \item{ellipse_level}{Numeric confidence level (0-1). Default is 0.95.}
 
@@ -63,30 +63,32 @@ numeric columns. Default is `NULL`.}
 
 \item{components}{Character vector of PCs to plot. Default is c("PC1", "PC2").}
 
-\item{show_variance}{Logical; shows variance % in axis labels. Default is `TRUE`.}
+\item{show_variance}{Logical; if `TRUE`, shows variance percentage in axis labels. Default is `TRUE`.}
 
-\item{show_loadings}{Logical; adds loading vectors. Default is `FALSE`.}
+\item{show_loadings}{Logical; if `TRUE`, adds loading vectors. Default is `FALSE`.}
 
 \item{n_loadings}{Integer number of loading vectors to show. Default is 5.}
 
-\item{color_palette}{Character string: "Set1", "Set2", "Dark2", "viridis", etc. Default is "Set1".}
+\item{color_palette}{Character string specifying color scheme.
+Options: "Set1" (default), "Set2", "Dark2", "viridis", etc.}
 
 \item{random_seed}{Integer for k-means reproducibility. Default is 123.}
 
-\item{save_plot}{Logical; saves plot if `TRUE`. Default is `FALSE`.}
+\item{save_plot}{Logical; if `TRUE`, saves plot to file. Default is `FALSE`.}
 
-\item{output_dir}{Output directory path. Default is "figures/pca".}
+\item{output_dir}{Character string specifying output directory. Default is "figures/pca".}
 
-\item{file_prefix}{Filename prefix. Default is "pca".}
+\item{file_prefix}{Character string to prepend to filename. Default is "pca".}
 
-\item{width}{Plot width in inches. Default is 8.}
+\item{width}{Numeric specifying plot width in inches. Default is 8.}
 
-\item{height}{Plot height in inches. Default is 6.}
+\item{height}{Numeric specifying plot height in inches. Default is 6.}
 
-\item{dpi}{Resolution for saved plots. Default is 300.}
+\item{dpi}{Numeric specifying resolution for saved plots. Default is 300.}
 }
 \value{
-List containing: plot, pca object, variance table, clusters (if used), scores
+A list containing: plot (ggplot object), pca (prcomp object), variance (data frame),
+  clusters (k-means results if used, NULL otherwise), and scores (PC scores with metadata).
 }
 \description{
 Performs PCA on individual subjects, with each point representing one subject's

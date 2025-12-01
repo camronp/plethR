@@ -11,29 +11,31 @@
 #'   numeric columns. Default is `NULL`.
 #' @param use_clustering Logical; if `TRUE`, applies k-means clustering. Default is `FALSE`.
 #' @param num_clusters Integer specifying number of k-means clusters. Default is 4.
-#' @param color_by Character string specifying coloring:
-#'   - "group": Color by experimental group (default)
-#'   - "cluster": Color by k-means cluster
+#' @param color_by Character string specifying coloring.
+#'   Options: "group" (color by experimental group, default) or "cluster" (color by k-means cluster).
 #' @param show_ellipses Logical; if `TRUE`, shows confidence ellipses around groups. Default is `TRUE`.
-#' @param ellipse_type Character string: "norm", "t", or "euclid". Default is "norm".
+#' @param ellipse_type Character string specifying ellipse type.
+#'   Options: "norm", "t", or "euclid". Default is "norm".
 #' @param ellipse_level Numeric confidence level (0-1). Default is 0.95.
 #' @param show_labels Logical; if `TRUE`, displays subject labels. Default is `TRUE`.
 #' @param label_size Numeric specifying label text size. Default is 3.
 #' @param point_size Numeric specifying point size. Default is 3.
 #' @param components Character vector of PCs to plot. Default is c("PC1", "PC2").
-#' @param show_variance Logical; shows variance % in axis labels. Default is `TRUE`.
-#' @param show_loadings Logical; adds loading vectors. Default is `FALSE`.
+#' @param show_variance Logical; if `TRUE`, shows variance percentage in axis labels. Default is `TRUE`.
+#' @param show_loadings Logical; if `TRUE`, adds loading vectors. Default is `FALSE`.
 #' @param n_loadings Integer number of loading vectors to show. Default is 5.
-#' @param color_palette Character string: "Set1", "Set2", "Dark2", "viridis", etc. Default is "Set1".
+#' @param color_palette Character string specifying color scheme.
+#'   Options: "Set1" (default), "Set2", "Dark2", "viridis", etc.
 #' @param random_seed Integer for k-means reproducibility. Default is 123.
-#' @param save_plot Logical; saves plot if `TRUE`. Default is `FALSE`.
-#' @param output_dir Output directory path. Default is "figures/pca".
-#' @param file_prefix Filename prefix. Default is "pca".
-#' @param width Plot width in inches. Default is 8.
-#' @param height Plot height in inches. Default is 6.
-#' @param dpi Resolution for saved plots. Default is 300.
+#' @param save_plot Logical; if `TRUE`, saves plot to file. Default is `FALSE`.
+#' @param output_dir Character string specifying output directory. Default is "figures/pca".
+#' @param file_prefix Character string to prepend to filename. Default is "pca".
+#' @param width Numeric specifying plot width in inches. Default is 8.
+#' @param height Numeric specifying plot height in inches. Default is 6.
+#' @param dpi Numeric specifying resolution for saved plots. Default is 300.
 #'
-#' @return List containing: plot, pca object, variance table, clusters (if used), scores
+#' @return A list containing: plot (ggplot object), pca (prcomp object), variance (data frame),
+#'   clusters (k-means results if used, NULL otherwise), and scores (PC scores with metadata).
 #'
 #' @examples
 #' \dontrun{
