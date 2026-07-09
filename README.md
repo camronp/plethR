@@ -197,19 +197,24 @@ print(pca$variance)
   - High-resolution output options (up to 600 DPI)
   - Comprehensive error handling and validation
 
-- **v0.2.5** (February 2025): Compatibility updates
+- **v1.0.6** (February 2025): Compatibility updates
   - Adapted to new FinePointe software version
   - Added unnest functionality
 
-- **v0.2.0** (February 2025): Feature additions
+- **v1.0.7** (February 2025): Feature additions
   - Added string mapping functionality
   - Enhanced group organization
 
-- **v0.1.5** (January 2025): Initial improvements
+- **v1.0.8** (January 2025): Initial improvements
   - Added `custom_define_group()` function
   - Fixed PCA plotting consistency
   - Added data export functions
   - Minor bug fixes
+
+- **v1.0.8** (July 2026)
+  - Updated depracated functions
+  - Re-worked calculate_group_averages
+  - Validated package functionality
 
 ## Citation
 
