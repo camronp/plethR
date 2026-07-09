@@ -1,7 +1,7 @@
 Package: plethR
 Type: Package
 Title: What the Package Does
-Version: 1.2.0
+Version: 1.1.0
 Author: Camron Pearce, PhD
 Maintainer: The package maintainer <camronpearce@gmail.com>
 Description: Used for tidying, analyzing, and visualizing DSI WBP Data from FinePointe

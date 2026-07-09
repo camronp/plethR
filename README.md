@@ -211,7 +211,7 @@ print(pca$variance)
   - Added data export functions
   - Minor bug fixes
 
-- **v1.0.8** (July 2026)
+- **v1.1.0** (July 2026)
   - Updated depracated functions
   - Re-worked calculate_group_averages
   - Validated package functionality
