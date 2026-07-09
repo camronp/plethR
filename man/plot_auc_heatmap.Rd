@@ -61,7 +61,7 @@ Options: "none" (default for normalized data), "row" (scale each parameter), "co
 
 \item{show_values}{Logical; if `TRUE`, displays values in cells. Default is `FALSE`.}
 
-\item{value_format}{Character string for value formatting. Default is "%.2f".}
+\item{value_format}{Character string for value formatting. Default is "\%.2f".}
 
 \item{cell_width}{Numeric specifying cell width in points. Default is 40.}
 

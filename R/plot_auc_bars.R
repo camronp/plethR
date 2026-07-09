@@ -12,15 +12,15 @@
 #' @param value_type Character string specifying which values to plot.
 #'   Options: "auc" (raw AUC values, default), "normalized" (fold change), or "both" (create both types).
 #' @param y_axis_start Character string or numeric specifying y-axis starting point.
-#'   Options: "smart" (starts at 80% of minimum, default), "zero" (traditional), or numeric value.
+#'   Options: "smart" (starts at 80\% of minimum, default), "zero" (traditional), or numeric value.
 #' @param y_expand_top Numeric specifying fraction to expand y-axis above bars for labels.
 #'   Default is 0.1.
 #' @param y_expand_bottom Numeric specifying fraction to expand y-axis below minimum.
 #'   Default is 0.05. Ignored if y_axis_start = "zero".
 #' @param error_bars Character string specifying error bar type.
-#'   Options: "sd" (standard deviation, default), "se" (standard error), "ci" (95% confidence interval), or "none".
+#'   Options: "sd" (standard deviation, default), "se" (standard error), "ci" (95\% confidence interval), or "none".
 #' @param show_values Logical; if `TRUE`, displays values on top of bars. Default is `TRUE`.
-#' @param value_format Character string for value formatting. Default is "%.1f".
+#' @param value_format Character string for value formatting. Default is "\%.1f".
 #' @param show_stats Logical; if `TRUE`, adds statistical comparison indicators. Default is `FALSE`.
 #' @param reference_group Character string specifying reference group for comparisons.
 #'   Required if `show_stats = TRUE`. Default is `NULL`.
@@ -41,7 +41,7 @@
 #' @return A named list of ggplot objects, one per parameter or value type.
 #'
 #' @details
-#' The "smart" y-axis scaling improves visualization by starting the y-axis at 80% of the minimum value
+#' The "smart" y-axis scaling improves visualization by starting the y-axis at 80\% of the minimum value
 #' instead of zero, making small differences between groups more visible while reducing wasted white space.
 #'
 #' Use `group_order` to arrange groups in a meaningful order (e.g., control first,

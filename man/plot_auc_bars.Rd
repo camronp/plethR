@@ -46,7 +46,7 @@ Options: "separate" (one plot per parameter, default) or "combined" (all paramet
 Options: "auc" (raw AUC values, default), "normalized" (fold change), or "both" (create both types).}
 
 \item{y_axis_start}{Character string or numeric specifying y-axis starting point.
-Options: "smart" (starts at 80% of minimum, default), "zero" (traditional), or numeric value.}
+Options: "smart" (starts at 80\% of minimum, default), "zero" (traditional), or numeric value.}
 
 \item{y_expand_top}{Numeric specifying fraction to expand y-axis above bars for labels.
 Default is 0.1.}
@@ -55,11 +55,11 @@ Default is 0.1.}
 Default is 0.05. Ignored if y_axis_start = "zero".}
 
 \item{error_bars}{Character string specifying error bar type.
-Options: "sd" (standard deviation, default), "se" (standard error), "ci" (95% confidence interval), or "none".}
+Options: "sd" (standard deviation, default), "se" (standard error), "ci" (95\% confidence interval), or "none".}
 
 \item{show_values}{Logical; if `TRUE`, displays values on top of bars. Default is `TRUE`.}
 
-\item{value_format}{Character string for value formatting. Default is "%.1f".}
+\item{value_format}{Character string for value formatting. Default is "\%.1f".}
 
 \item{show_stats}{Logical; if `TRUE`, adds statistical comparison indicators. Default is `FALSE`.}
 
@@ -98,7 +98,7 @@ Generates bar plots of Area Under the Curve (AUC) values
 with intelligent y-axis scaling, error bars, and statistical comparisons.
 }
 \details{
-The "smart" y-axis scaling improves visualization by starting the y-axis at 80% of the minimum value
+The "smart" y-axis scaling improves visualization by starting the y-axis at 80\% of the minimum value
 instead of zero, making small differences between groups more visible while reducing wasted white space.
 
 Use `group_order` to arrange groups in a meaningful order (e.g., control first,

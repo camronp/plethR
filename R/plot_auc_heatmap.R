@@ -21,7 +21,7 @@
 #' @param scale_data Character string specifying scaling.
 #'   Options: "none" (default for normalized data), "row" (scale each parameter), "column" (scale each group).
 #' @param show_values Logical; if `TRUE`, displays values in cells. Default is `FALSE`.
-#' @param value_format Character string for value formatting. Default is "%.2f".
+#' @param value_format Character string for value formatting. Default is "\%.2f".
 #' @param cell_width Numeric specifying cell width in points. Default is 40.
 #' @param cell_height Numeric specifying cell height in points. Default is 40.
 #' @param font_size Numeric specifying base font size. Default is 10.
