@@ -55,4 +55,5 @@
 #' @name plethR-package
 #' @aliases plethR
 #' @keywords internal
+#' @importFrom magrittr %>%
 "_PACKAGE"
