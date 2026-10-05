@@ -42,12 +42,15 @@ Several options allow for data cleaning and preprocessing:
 - `date_average`: If `TRUE`, the data is averaged by date, with each unique date in the "Time" column representing a summary row.
 }
 \examples{
-#recommend saving excel file as: excel_file <- "example.xlsx". and optionally use as object in sheets_into_list()
+\dontrun{
+excel_file <- "example.xlsx"
 
 # Load all sheets from an Excel file and remove any sheets containing "Apnea" in their name
 df_list <- sheets_into_list(excel_file, remove_apnea = TRUE)
 
 # Load sheets and clean the "Time" column, remove rows with NA, and average data by date
-df_list <- sheets_into_list("data.xlsx", clean_time = TRUE, date_average = TRUE, remove_na = TRUE)
+df_list <- sheets_into_list(excel_file, clean_time = TRUE, date_average = TRUE,
+                            remove_na = TRUE)
+}
 
 }

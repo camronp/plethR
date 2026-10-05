@@ -4,3 +4,9 @@
 .Ruserdata
 testing_pipeline.R
 inst/doc
+
+# Data files (keep research data out of the repo)
+*.xlsx
+*.xls
+*.csv
+~$*

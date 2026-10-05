@@ -13,8 +13,10 @@
 #' @return A ggplot object showing the PCA plot with clusters and ellipses.
 #'
 #' @examples
+#' \dontrun{
 #' # Assuming object is a list of numeric data frames
 #' wbp_pca_plot(df_list_summarized, num_clusters = 3, text_size = 4, save_plots = TRUE)
+#' }
 #'
 #' @export
 
@@ -61,7 +63,7 @@ wbp_pca_plot <- function(df_list, num_clusters = 4, text_size = 5, save_plots = 
     theme(plot.title = element_text(hjust = 0.5, size = 20)) +
     scale_color_manual(values = cluster_colors) +
     scale_fill_manual(values = cluster_colors) +
-    guides(color = FALSE, fill = guide_legend(title = "Cluster"))
+    guides(color = "none", fill = guide_legend(title = "Cluster"))
 
   # Step 2: Save plot if save_plots is TRUE
   if (save_plots) {

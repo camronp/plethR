@@ -46,6 +46,25 @@ plethR requires the following packages, which will be installed automatically:
 - **Visualization**: ggplot2, ggrepel, ggforce, RColorBrewer, pheatmap, viridisLite
 - **Statistics**: stats (base R)
 
+## Shiny Application
+
+plethR includes a complete interactive Shiny application that walks through the entire workflow without writing any R code: import data, define groups, calculate group averages and AUC, and generate time series plots, bar plots, heatmaps, and PCA plots. Results can be downloaded as images or as a combined Excel workbook.
+
+To launch it after installing the package:
+```r
+library(plethR)
+run_plethR_app()
+```
+
+This opens the application in your default web browser. Set `run_plethR_app(launch_browser = FALSE)` to run it without opening a browser automatically.
+
+The application requires the `shiny`, `bslib`, `DT`, and `shinycssloaders` packages, which can be installed with:
+```r
+install.packages(c("shiny", "bslib", "DT", "shinycssloaders"))
+```
+
+When developing plethR from a cloned copy of this repository, you can instead open `inst/shiny-app/app.R` in RStudio and click **Run App**. Run this way, the app loads the functions directly from `R/`, so changes take effect without reinstalling the package. There is no upload size limit, so large FinePointe Excel exports can be imported.
+
 ## Quick Start
 
 ### Basic Workflow

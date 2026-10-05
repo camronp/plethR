@@ -56,4 +56,16 @@
 #' @aliases plethR
 #' @keywords internal
 #' @importFrom magrittr %>%
+#' @importFrom dplyr all_of everything
+#' @importFrom ggplot2 guides guide_legend
+#' @importFrom ggforce geom_mark_ellipse
+#' @importFrom stats na.omit complete.cases setNames
+#' @importFrom utils head install.packages installed.packages
 "_PACKAGE"
+
+# Column names used inside dplyr/ggplot2 code (non-standard evaluation).
+utils::globalVariables(c(
+  ".data", "Cluster", "Label", "PC1", "PC2", "Time", "auc_reference", "error",
+  "group", "label", "parameter", "value", "variable",
+  "x_end", "x_start", "y_end", "y_start"
+))

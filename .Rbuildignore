@@ -3,3 +3,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.claude$
+^notes_to_self\.R$
+^.*\.xlsx$

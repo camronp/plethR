@@ -32,7 +32,9 @@ and creates a 2D PCA plot of the first two components with clusters highlighted 
 It also allows for optional saving of the plot as a PNG file.
 }
 \examples{
+\dontrun{
 # Assuming object is a list of numeric data frames
 wbp_pca_plot(df_list_summarized, num_clusters = 3, text_size = 4, save_plots = TRUE)
+}
 
 }

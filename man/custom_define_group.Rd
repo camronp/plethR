@@ -32,10 +32,12 @@ should be entered as a comma-separated list (e.g., "1,3,5").
 - If `use_string_value` is `TRUE`, the sheet numbers will be appended with ".WBPth" to map them to string identifiers.
 }
 \examples{
+\dontrun{
 # Requires user predefined group names using set_group_names function.
 test_names <- set_group_names(c("Group A", "Group B", "Group C", "Group D"))
 
 # Interactively assign sheet numbers to these groups with string identifiers
 group_mapping <- custom_define_group(group_names = test_names, use_string_value = TRUE)
+}
 
 }
