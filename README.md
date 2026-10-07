@@ -48,7 +48,15 @@ plethR requires the following packages, which will be installed automatically:
 
 ## Shiny Application
 
-plethR includes a complete interactive Shiny application that walks through the entire workflow without writing any R code: import data, define groups, calculate group averages and AUC, and generate time series plots, bar plots, heatmaps, and PCA plots. Results can be downloaded as images or as a combined Excel workbook.
+plethR includes a guided Shiny application for the complete analysis, with no R code required:
+
+1. **Load data**: upload a FinePointe export; animals, sessions (in recording order) and parameters are detected automatically.
+2. **Groups**: groups are suggested from sheet names (`Infected WT1`, `Infected WT2` → `Infected WT`); edit them and pick a control group.
+3. **Process**: summarize each animal per session (median recommended) with optional Rinx filtering and baseline adjustment, and review a data-check table that flags missing or short sessions.
+4. **Results**: key findings, time courses (mean ± SEM, individual animals, significance markers), group comparisons of per-animal AUC or other metrics, % difference heatmaps and PCA. Every option has a recommended default and an explanation.
+5. **Export**: an Excel workbook with all tables, all figures as one vector PDF or 300 dpi PNGs, and an auto-written methods paragraph.
+
+All statistics use the animal, not the individual breath, as the experimental unit.
 
 To launch it after installing the package:
 ```r
@@ -67,7 +75,30 @@ When developing plethR from a cloned copy of this repository, you can instead op
 
 ## Quick Start
 
-### Basic Workflow
+### Recommended workflow (v1.2.0)
+
+The animal-level pipeline used by the app is also available in R:
+
+```r
+library(plethR)
+
+wbp <- read_wbp("experiment.xlsx")                 # keeps Phase, drops empty sheets and log lines
+groups <- split(unique(wbp$subject), suggest_groups(unique(wbp$subject)))
+sessions <- summarize_sessions(assign_groups(wbp, groups))   # one median per animal per session
+
+group_means <- summarize_groups(sessions)          # mean, SD, SEM, n per group and timepoint
+auc <- summarize_subjects(sessions, metric = "auc") # one AUC per animal and parameter
+stats <- compare_groups(auc, reference = "Uninfected WT")    # Welch tests, Holm correction
+tp_stats <- compare_timepoints(sessions, reference = "Uninfected WT")
+
+colors <- plethr_colors(names(groups))
+plot_timecourse(group_means, "Penh", sessions, colors, show_individuals = TRUE, stats = tp_stats)
+plot_group_comparison(auc, "Penh", stats, colors)
+plot_difference_heatmap(stats)
+plot_subject_pca(auc, colors)$plot
+```
+
+### Original workflow
 ```r
 library(plethR)
 
@@ -181,6 +212,13 @@ print(pca$variance)
 6. **Consistent dimensions**: Use same `width` and `height` across figures
 
 ## Update History
+
+- **v1.2.0** (October 2026): Animal-level analysis pipeline and redesigned app
+  - New functions: `read_wbp()`, `suggest_groups()`, `assign_groups()`, `summarize_sessions()`, `apply_baseline()`, `summarize_groups()`, `summarize_subjects()`, `compare_groups()`, `compare_timepoints()`
+  - New plots: `plot_timecourse()`, `plot_group_comparison()`, `plot_difference_heatmap()`, `plot_subject_pca()`, with `theme_plethr()` and colorblind-safe `plethr_colors()`
+  - Statistics treat the animal as the experimental unit, with Welch or rank-based tests and multiple comparison correction
+  - Guided Shiny app with recommended settings, data checks, key findings, a parameter glossary, full export and a methods paragraph
+  - Existing functions are unchanged
 
 - **v1.1.0** (November 2024): Major enhancement release
   - **Complete package overhaul**: All 12 core functions refactored with modern best practices

@@ -10,3 +10,6 @@ inst/doc
 *.xls
 *.csv
 ~$*
+
+# Personal planning notes (not pushed)
+dev_notes/

@@ -5,3 +5,4 @@
 ^\.claude$
 ^notes_to_self\.R$
 ^.*\.xlsx$
+^dev_notes$
