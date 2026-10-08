@@ -7,7 +7,7 @@
 plot_ml_confusion(object, model, level = c("session", "animal"))
 }
 \arguments{
-\item{object}{Output of [ml_fit()].}
+\item{object}{Output of [ml_fit()] for a categorical outcome.}
 
 \item{model}{Model code.}
 

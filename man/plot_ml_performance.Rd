@@ -13,5 +13,6 @@ plot_ml_performance(object)
 A ggplot object.
 }
 \description{
-ROC AUC (with accuracy) for every model, at session and animal level.
+ROC AUC (classification) or held-out R-squared (regression) for every model,
+at session and animal level.
 }

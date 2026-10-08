@@ -7,7 +7,7 @@
 plot_ml_roc(object, level = c("session", "animal"), models = NULL)
 }
 \arguments{
-\item{object}{Output of [ml_fit()].}
+\item{object}{Output of [ml_fit()] for a categorical outcome.}
 
 \item{level}{`"session"` or `"animal"`.}
 

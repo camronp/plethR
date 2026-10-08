@@ -9,7 +9,7 @@ plot_ml_importance(object, model, n = 15)
 \arguments{
 \item{object}{Output of [ml_fit()].}
 
-\item{model}{Model code (`"rf"`, `"bt"`, `"en"` or `"log"`).}
+\item{model}{Model code (`"rf"`, `"bt"`, `"en"`, `"log"` or `"lm"`).}
 
 \item{n}{Number of features to show.}
 }

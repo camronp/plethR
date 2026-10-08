@@ -68,6 +68,10 @@ wbp_parameter_info <- function() {
 #' @export
 wbp_axis_label <- function(parameter, transform = "none") {
   info <- wbp_parameter_info()
+  if (is_variability_feature(parameter)) {
+    nm <- wbp_feature_name(parameter)
+    return(switch(transform, percent = paste0(nm, " (% of baseline)"), difference = paste0("\u0394 ", nm), nm))
+  }
   unit <- info$unit[match(parameter, info$parameter)]
   if (identical(transform, "percent")) return(paste0(parameter, " (% of baseline)"))
   if (identical(transform, "difference")) {
@@ -363,6 +367,18 @@ p_stars <- function(p) {
 }
 
 # Pairwise test between two numeric vectors; NA when either group has < 2 values.
+# 95% confidence interval of (b - a): Welch t interval, or the Hodges-Lehmann shift for rank tests.
+pair_ci <- function(a, b, test) {
+  a <- a[!is.na(a)]
+  b <- b[!is.na(b)]
+  if (length(a) < 2 || length(b) < 2 || stats::sd(c(a, b)) == 0) return(c(NA_real_, NA_real_))
+  ci <- tryCatch(suppressWarnings(
+    if (test == "parametric") stats::t.test(b, a)$conf.int
+    else stats::wilcox.test(b, a, conf.int = TRUE, exact = !anyDuplicated(c(a, b)))$conf.int
+  ), error = function(e) c(NA_real_, NA_real_))
+  as.numeric(ci[1:2])
+}
+
 pair_test <- function(a, b, test) {
   a <- a[!is.na(a)]
   b <- b[!is.na(b)]
@@ -391,7 +407,9 @@ pair_test <- function(a, b, test) {
 #'
 #' @return A data frame with one row per parameter and pair: `parameter`,
 #'   `group1`, `group2`, `n1`, `n2`, `mean1`, `mean2`, `difference`,
-#'   `pct_difference` (group2 vs group1), `p`, `p_adj`, `stars`, and `p_omnibus`.
+#'   `ci_low`, `ci_high` (95% CI of the difference: Welch interval, or Hodges-Lehmann
+#'   for rank tests), `pct_difference`, `pct_ci_low`, `pct_ci_high` (relative to
+#'   group1's mean), `p`, `p_adj`, `stars`, and `p_omnibus`.
 #' @export
 compare_groups <- function(values, reference = NULL,
                            test = c("parametric", "nonparametric"), p_adjust = "holm") {
@@ -428,6 +446,8 @@ compare_groups <- function(values, reference = NULL,
         mean1 = if (length(a)) mean(a) else NA_real_,
         mean2 = if (length(b)) mean(b) else NA_real_,
         p = pair_test(a, b, test),
+        ci_low = pair_ci(a, b, test)[1],
+        ci_high = pair_ci(a, b, test)[2],
         stringsAsFactors = FALSE
       )
     })
@@ -441,9 +461,12 @@ compare_groups <- function(values, reference = NULL,
   rownames(out) <- NULL
   out$difference <- out$mean2 - out$mean1
   out$pct_difference <- ifelse(out$mean1 == 0, NA_real_, out$difference / abs(out$mean1) * 100)
+  out$pct_ci_low <- ifelse(out$mean1 == 0, NA_real_, out$ci_low / abs(out$mean1) * 100)
+  out$pct_ci_high <- ifelse(out$mean1 == 0, NA_real_, out$ci_high / abs(out$mean1) * 100)
   out$stars <- p_stars(out$p_adj)
   out[, c("parameter", "group1", "group2", "n1", "n2", "mean1", "mean2",
-          "difference", "pct_difference", "p", "p_adj", "stars", "p_omnibus")]
+          "difference", "ci_low", "ci_high", "pct_difference", "pct_ci_low", "pct_ci_high",
+          "p", "p_adj", "stars", "p_omnibus")]
 }
 
 #' Compare Groups with a Reference Group at Each Timepoint

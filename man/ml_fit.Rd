@@ -2,12 +2,12 @@
 % Please edit documentation in R/wbp_ml.R
 \name{ml_fit}
 \alias{ml_fit}
-\title{Train and Evaluate Classification Models}
+\title{Train and Evaluate Prediction Models}
 \usage{
 ml_fit(
   data,
-  models = names(ml_model_names()),
-  validation = c("animal", "random"),
+  models = NULL,
+  validation = c("animal", "random", "study"),
   folds = 5,
   tuning = c("quick", "thorough"),
   upsample = TRUE,
@@ -17,17 +17,19 @@ ml_fit(
 )
 }
 \arguments{
-\item{data}{Output of [ml_prepare()].}
+\item{data}{Output of [ml_prepare()], [ml_prepare_infection()],
+[ml_prepare_phase()] or [ml_prepare_severity()].}
 
-\item{models}{Model codes from [ml_model_names()].}
+\item{models}{Model codes from [ml_model_names()]. Models that do not fit the
+outcome type are skipped.}
 
-\item{validation}{`"animal"` or `"random"`.}
+\item{validation}{`"animal"`, `"study"` or `"random"`.}
 
 \item{folds}{Number of cross-validation folds for `"animal"` validation.}
 
 \item{tuning}{`"quick"` (small grids) or `"thorough"` (the original CP05 grids; slow).}
 
-\item{upsample}{Upsample the minority class in training data.}
+\item{upsample}{Upsample the smaller class in training data (classification only).}
 
 \item{seed}{Random seed.}
 
@@ -42,16 +44,21 @@ An object of class `plethr_ml`: a list with `metrics` (per model, at
   rows, for prediction), `errors`, `data` and `settings`.
 }
 \description{
-Fits up to seven models (logistic regression, k-nearest neighbors, linear and
-quadratic discriminant analysis, elastic net, random forest, gradient-boosted
-trees). Predictors are centered and scaled and the minority class is upsampled
-in training data. Tunable models are tuned by ROC AUC.
+For a categorical outcome, fits up to seven classification models (logistic
+regression, k-nearest neighbors, linear and quadratic discriminant analysis,
+elastic net, random forest, gradient-boosted trees), upsampling the smaller
+class and tuning by ROC AUC. For a numeric outcome (severity), fits up to five
+regression models (linear regression, k-nearest neighbors, elastic net, random
+forest, gradient-boosted trees), tuning by RMSE. Predictors are always centered
+and scaled.
 }
 \details{
 Two validation schemes are available:
 * `"animal"` (recommended): cross-validation in which all sessions of an animal
   are held out together, so models are always evaluated on animals they have
   never seen. Performance is computed from the out-of-fold predictions.
+* `"study"`: leave-one-study-out, for data from [ml_prepare_library()]: each
+  study is predicted by models trained on the other studies.
 * `"random"`: the original CP05 approach. Rows (animal sessions) are split
   80/20 at random and models are tuned by 10-fold cross-validation on the
   training rows. Because sessions of the same animal end up in both training

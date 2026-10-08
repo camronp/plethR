@@ -1,7 +1,7 @@
 Package: plethR
 Type: Package
 Title: Analysis and Visualization of Whole Body Plethysmography Data
-Version: 1.2.0
+Version: 1.4.0
 Author: Camron Pearce, PhD
 Maintainer: Camron Pearce <camronpearce@gmail.com>
 Description: Used for tidying, analyzing, and visualizing DSI whole body
@@ -47,5 +47,9 @@ Suggests:
     MASS,
     future,
     scales,
+    svglite,
+    emmeans,
+    testthat (>= 3.0.0),
     zip
 VignetteBuilder: knitr
+Config/testthat/edition: 3

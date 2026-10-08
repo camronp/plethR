@@ -48,13 +48,18 @@ plethR requires the following packages, which will be installed automatically:
 
 ## Shiny Application
 
-plethR includes a guided Shiny application for the complete analysis, with no R code required:
+plethR includes a guided Shiny application for the complete analysis, with no R code required.
 
-1. **Load data**: upload a FinePointe export; animals, sessions (in recording order) and parameters are detected automatically.
-2. **Groups**: groups are suggested from sheet names (`Infected WT1`, `Infected WT2` → `Infected WT`); edit them and pick a control group.
-3. **Process**: summarize each animal per session (median recommended) with optional Rinx filtering and baseline adjustment, and review a data-check table that flags missing or short sessions.
-4. **Results**: key findings, time courses (mean ± SEM, individual animals, significance markers), group comparisons of per-animal AUC or other metrics, % difference heatmaps and PCA. Every option has a recommended default and an explanation.
-5. **Export**: an Excel workbook with all tables, all figures as one vector PDF or 300 dpi PNGs, and an auto-written methods paragraph.
+**Toolbar** (always visible): open a data file or project (with a list of recent projects), **Save** (or Ctrl+S), download everything, choose the parameter and the control group, and open Analysis settings (summary metric and statistics) or Figures. Save writes the project (data, groups, design file, every setting, trained models) to a folder on your computer (default `Documents/plethR_projects`); the toolbar shows when there are unsaved changes, unsaved work is autosaved every 3 minutes, and the browser warns before closing with unsaved changes.
+
+**Pages**
+
+1. **Setup**: one page with three steps. *Data*: upload a FinePointe export; animals, sessions and parameters are detected automatically. *Groups*: groups are suggested from sheet names (`Infected WT1`, `Infected WT2` -> `Infected WT`); edit them, or load a **study design file** (template downloadable from the app) with groups, sex, exclusions, body weights and CFU. *Processing*: one value per animal per session (median recommended), optional Rinx filter, baseline adjustment, variability features and body weight, with a data-check table.
+2. **Results**: every view in one list, grouped by question. *Overview*: key findings, all parameters, a methods paragraph. *Over time*: time course (mixed model with baseline, sex and weight covariates, or per-timepoint tests), every animal as a heatmap, animal trends, change from baseline, and bacterial burden (shown when the design file has CFU values). *Group differences*: group comparison, effect sizes with 95% CIs, % difference heatmap, factorial (e.g. genotype x infection) model. *Patterns*: PCA and More views (correlations, group profiles, two-parameter paths, breath-record distributions). *Data*: data tables.
+3. **Prediction**: *Models for this study* predict infected vs uninfected, acute vs chronic infection, or disease severity from the parameters you choose. Validation holds out whole animals; models are saved with the project and can be applied to new files. *Models across studies* is the study library: add each analyzed study to a library folder, train models across studies with leave-one-study-out validation, and keep a history of saved models.
+4. **Treatment**: a lung health score (or a machine learning disease score) comparing treated animals with untreated and healthy animals: verdict, % rescue, statistics, per-parameter breakdown and per-animal trends.
+
+Every figure has image and PDF download buttons and every table has Copy/CSV/Excel buttons. **Download everything** produces one zip with the Excel workbook, every figure, a combined PDF, methods, settings and a README; the R script download reproduces the analysis with plethR functions.
 
 All statistics use the animal, not the individual breath, as the experimental unit.
 
@@ -96,6 +101,83 @@ plot_timecourse(group_means, "Penh", sessions, colors, show_individuals = TRUE, 
 plot_group_comparison(auc, "Penh", stats, colors)
 plot_difference_heatmap(stats)
 plot_subject_pca(auc, colors)$plot
+```
+
+### Prediction models
+
+Requires the optional modeling packages (`ml_check_packages()` lists any that are missing).
+
+```r
+infected <- c("Infected WT", "Infected BENaC"); controls <- c("Uninfected WT", "Uninfected BENaC")
+
+# Infected vs uninfected (sessions before "Week 1" are left out by default)
+fit <- ml_fit(ml_prepare_infection(sessions, infected, controls, infection_timepoint = "Week 1"))
+fit                                   # held-out performance per model
+plot_ml_over_time(fit, "en")          # when does infection become detectable?
+
+# Acute vs chronic, plus the time-only check on controls
+phase <- ml_fit(ml_prepare_phase(sessions, infected, "Week 1", acute_days = 14))
+check <- ml_fit(ml_prepare_phase(sessions, controls, "Week 1", acute_days = 14))
+
+# Severity: a table with columns subject and value (and optionally timepoint)
+sev <- ml_fit(ml_prepare_severity(sessions, cfu_table, outcome_name = "Lung CFU", log_outcome = TRUE))
+plot_ml_observed(sev, "en", "animal")
+
+ml_predict(fit, new_sessions, "en")   # apply to a new study
+```
+
+### Is a treatment working?
+
+```r
+scored <- lung_health_score(sessions, healthy = "Uninfected", disease = "Infected + vehicle",
+                            parameters = c("Penh", "TVb", "EF50", "Rpef", "EEP"), onset_timepoint = "Day 3")
+eff <- treatment_efficacy(scored, treated = "Infected + drug", from = "Day 7")
+eff$verdict$text                      # plain-language verdict
+eff$rescue                            # % of the disease effect removed
+plot_treatment_parameters(eff)        # which parameters the treatment normalizes
+
+# Alternative score: a model trained on healthy vs untreated animals (log-odds of disease)
+ml_scored <- ml_disease_score(sessions, "Uninfected", "Infected + vehicle", onset_timepoint = "Day 3")
+treatment_efficacy(ml_scored, treated = "Infected + drug", from = "Day 7")$verdict$text
+
+# Direction of each animal over time (improving / worsening / no clear trend)
+trends <- animal_trends(scored, "lung_score", from = "Day 7", higher_is = "worse")
+plot_animal_trends(scored, "lung_score", trends, higher_is = "worse", reference_line = 0)
+```
+
+### Mixed-model time course and study planning
+
+```r
+mt <- mixed_timecourse(sessions, "Penh", reference = "Uninfected WT", covariates = c("baseline", "sex", "weight"),
+                       sex = setNames(design$animals$sex, design$animals$animal), log_transform = TRUE)
+mt$anova; mt$contrasts               # terms, and each group vs reference at every timepoint
+plot_mixed_timecourse(mt, colors)
+
+plan <- sample_size_plan(auc, "Uninfected WT", power = 0.8, effect_pct = 20, n_comparisons = 3)
+plot_power_curve(plan, "Penh", colors)
+```
+
+### Study library: models across studies
+
+```r
+lib <- "~/plethR_library"
+library_add_study(lib, sessions, "CP05", conditions = c("Uninfected WT" = "Uninfected", "Infected WT" = "Infected", ...),
+                  infection_timepoint = "Week 1", offset = 3)
+fit <- ml_fit(ml_prepare_library(library_load(lib), "infection"), validation = "study")  # leave one study out
+ml_study_metrics(fit)                 # performance in each held-out study
+library_save_model(lib, fit, "infection_v1")
+plot_model_history(library_models(lib))
+```
+
+### Breathing variability features (optional)
+
+How each parameter fluctuates within a session: smoothness (lag-1 autocorrelation), irregularity (sample entropy),
+robust CV, slow/mid/fast fluctuation power and spectral slope. FinePointe records are ~2 s averages, so these describe
+changes over seconds to minutes, not breath-to-breath variability.
+
+```r
+var <- session_variability(wbp, parameters = c("TVb", "MVb", "PIFb"), features = c("ac1", "sampen", "slow"))
+sessions <- add_variability(sessions, var)   # adds columns such as TVb_ac1, analyzed like any parameter
 ```
 
 ### Original workflow
@@ -213,6 +295,23 @@ print(pca$variance)
 
 ## Update History
 
+- **v1.4.0** (October 2026): Reproducibility, better statistics and a study library
+  - Save and reopen projects; downloadable R script that reproduces the analysis
+  - Reorganized app: a toolbar with file, save, export, analysis and figure options; Setup on one page; all results views in one list; Save/Ctrl+S to a projects folder with autosave, unsaved-changes indicator and recent projects
+  - Automated tests (`tests/testthat`), including regression tests on CP05 when the file is present
+  - Mixed-model time course with baseline, sex and body-weight covariates: `mixed_timecourse()`, `plot_mixed_timecourse()`
+  - Sample-size planning in R (not in the app): `sample_size_plan()`, `plot_power_curve()`
+  - Multi-study library with leave-one-study-out validation and model history: `library_add_study()`, `library_load()`, `ml_prepare_library()`, `ml_fit(validation = "study")`, `ml_study_metrics()`, `library_save_model()`, `plot_model_history()`
+
+- **v1.3.0** (October 2026): Prediction goals and treatment efficacy
+  - Machine learning: infected vs uninfected (with pre-infection sessions labeled uninfected), acute vs chronic (with a time-only check on controls), and disease severity regression on a measured value: `ml_prepare_infection()`, `ml_prepare_phase()`, `ml_prepare_severity()`, `add_dpi()`, `plot_ml_observed()`
+  - Treatment efficacy from a lung health score or a machine learning disease score: `lung_health_score()`, `ml_disease_score()`, `treatment_efficacy()`, `plot_treatment_parameters()`
+  - Per-animal trends with direction labels: `animal_trends()`, `plot_animal_trends()` (Results and Treatment steps)
+  - Optional within-session breathing variability features: `session_variability()`, `add_variability()` (switch in the Process step)
+  - New views: `plot_dashboard()`, `plot_animal_heatmap()`, `plot_correlation()`, `plot_group_profile()`, `plot_effect_forest()`, `plot_record_distribution()`, `plot_trajectory()`, `plot_waterfall()`; `compare_groups()` now returns 95% confidence intervals
+  - Export: figure format/size/resolution settings, table export buttons, and a "Download everything" zip
+  - Study design file: `write_design_template()`, `read_design()`, `design_groups()`, `add_body_weight()`, `design_dpi()`, `plot_cfu_overlay()`, `cfu_correlation()`, `plot_cfu_correlation()`
+  - App: prediction goal selector, user-chosen predictor parameters, severity table upload, and a Treatment efficacy step
 - **v1.2.0** (October 2026): Animal-level analysis pipeline and redesigned app
   - New functions: `read_wbp()`, `suggest_groups()`, `assign_groups()`, `summarize_sessions()`, `apply_baseline()`, `summarize_groups()`, `summarize_subjects()`, `compare_groups()`, `compare_timepoints()`
   - New plots: `plot_timecourse()`, `plot_group_comparison()`, `plot_difference_heatmap()`, `plot_subject_pca()`, with `theme_plethr()` and colorblind-safe `plethr_colors()`

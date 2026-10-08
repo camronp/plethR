@@ -15,7 +15,9 @@ plot_timecourse(
   show_individuals = FALSE,
   stats = NULL,
   transform = "none",
-  title = NULL
+  title = NULL,
+  log_y = FALSE,
+  facet_groups = FALSE
 )
 }
 \arguments{
@@ -42,6 +44,10 @@ get stars in the color of the group being compared with the reference.}
 \item{transform}{Baseline transform used, for the y-axis label.}
 
 \item{title}{Plot title. Defaults to the parameter's full name.}
+
+\item{log_y}{Log-scale y axis (useful for skewed parameters such as Penh).}
+
+\item{facet_groups}{Draw each group in its own panel.}
 }
 \value{
 A ggplot object.

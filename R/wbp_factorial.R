@@ -167,7 +167,7 @@ plot_interaction <- function(values, design, parameter, factor_names = c("A", "B
   pos <- ggplot2::position_dodge(width = 0.25)
   pos_pts <- ggplot2::position_jitterdodge(jitter.width = 0.08, dodge.width = 0.25, seed = 1)
   info <- wbp_parameter_info()
-  full <- info$name[match(parameter, info$parameter)]
+  full <- wbp_feature_name(parameter)
 
   ggplot2::ggplot(sm, ggplot2::aes(x = .data$A, y = .data$mean, color = .data$B, group = .data$B)) +
     ggplot2::geom_point(data = d, ggplot2::aes(y = .data$value, fill = .data$B), position = pos_pts,

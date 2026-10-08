@@ -2,7 +2,7 @@
 % Please edit documentation in R/wbp_ml.R
 \name{ml_prepare}
 \alias{ml_prepare}
-\title{Prepare Session Data for Classification}
+\title{Prepare Session Data: Any Two Sets of Groups}
 \usage{
 ml_prepare(
   sessions,
@@ -19,7 +19,7 @@ ml_prepare(
 \arguments{
 \item{sessions}{Output of [summarize_sessions()] with groups assigned.}
 
-\item{positive}{Groups forming the positive class (e.g. the infected groups).}
+\item{positive}{Groups forming the positive class.}
 
 \item{negative}{Groups forming the negative class. Defaults to all other groups.}
 
@@ -27,8 +27,7 @@ ml_prepare(
 
 \item{parameters}{Respiratory parameters to use as predictors. Defaults to all.}
 
-\item{exclude_timepoints}{Timepoints to leave out, e.g. the pre-infection
-baseline, when positive animals are not yet affected.}
+\item{exclude_timepoints}{Timepoints to leave out.}
 
 \item{include_day}{Add study day as a predictor.}
 

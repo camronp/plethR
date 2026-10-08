@@ -2,7 +2,7 @@
 % Please edit documentation in R/wbp_ml.R
 \name{plot_ml_over_time}
 \alias{plot_ml_over_time}
-\title{Plot Predicted Probability over Time}
+\title{Plot Predictions over Time}
 \usage{
 plot_ml_over_time(object, model, colors = NULL)
 }
@@ -17,6 +17,6 @@ plot_ml_over_time(object, model, colors = NULL)
 A ggplot object.
 }
 \description{
-Mean held-out probability of the positive class for each group at each
-timepoint, showing when the classes become distinguishable.
+Mean held-out prediction (probability of the first class, or predicted value)
+for each group at each timepoint.
 }

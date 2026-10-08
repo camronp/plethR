@@ -65,12 +65,14 @@ theme_plethr <- function(base_size = 13) {
 #'   get stars in the color of the group being compared with the reference.
 #' @param transform Baseline transform used, for the y-axis label.
 #' @param title Plot title. Defaults to the parameter's full name.
+#' @param log_y Log-scale y axis (useful for skewed parameters such as Penh).
+#' @param facet_groups Draw each group in its own panel.
 #' @return A ggplot object.
 #' @export
 plot_timecourse <- function(group_summary, parameter, sessions = NULL, colors = NULL,
                             error = c("sem", "sd", "none"), error_style = c("bars", "band"),
                             x_axis = c("timepoint", "day"), show_individuals = FALSE,
-                            stats = NULL, transform = "none", title = NULL) {
+                            stats = NULL, transform = "none", title = NULL, log_y = FALSE, facet_groups = FALSE) {
   error <- match.arg(error)
   error_style <- match.arg(error_style)
   x_axis <- match.arg(x_axis)
@@ -134,7 +136,7 @@ plot_timecourse <- function(group_summary, parameter, sessions = NULL, colors = 
   if (transform == "difference") p <- p + ggplot2::geom_hline(yintercept = 0, linetype = "dashed", color = "grey50")
 
   info <- wbp_parameter_info()
-  full <- info$name[match(parameter, info$parameter)]
+  full <- wbp_feature_name(parameter)
   err_lab <- switch(error, sem = "Mean \u00b1 SEM", sd = "Mean \u00b1 SD", none = "Mean")
   rotate <- x_axis == "timepoint" && length(lv) > 6
   p + ggplot2::labs(
@@ -144,7 +146,9 @@ plot_timecourse <- function(group_summary, parameter, sessions = NULL, colors = 
     caption = paste0(err_lab, "; n = animals per group",
                      if (!is.null(stats) && nrow(stats) > 0) "; * adjusted p < 0.05 vs reference group" else "")
   ) + theme_plethr() +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = if (rotate) 45 else 0, hjust = if (rotate) 1 else 0.5))
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = if (rotate) 45 else 0, hjust = if (rotate) 1 else 0.5)) +
+    (if (log_y) ggplot2::scale_y_log10() else NULL) +
+    (if (facet_groups) ggplot2::facet_wrap(~ group) else NULL)
 }
 
 #' Plot One Value per Animal by Group
@@ -225,7 +229,7 @@ plot_group_comparison <- function(values, parameter, comparisons = NULL, colors 
   }
 
   info <- wbp_parameter_info()
-  full <- info$name[match(parameter, info$parameter)]
+  full <- wbp_feature_name(parameter)
   p +
     ggplot2::scale_color_manual(values = colors, guide = "none") +
     ggplot2::scale_fill_manual(values = colors, guide = "none") +

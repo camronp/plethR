@@ -4,7 +4,11 @@
 \alias{ml_model_names}
 \title{Machine Learning Model Names}
 \usage{
-ml_model_names()
+ml_model_names(type = c("classification", "regression", "all"))
+}
+\arguments{
+\item{type}{`"classification"` (categories, e.g. infected vs uninfected),
+`"regression"` (a number, e.g. severity) or `"all"`.}
 }
 \value{
 A named character vector: short codes (names) and full model names.
@@ -14,4 +18,5 @@ Machine Learning Model Names
 }
 \examples{
 ml_model_names()
+ml_model_names("regression")
 }

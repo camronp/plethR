@@ -2,7 +2,7 @@
 % Please edit documentation in R/wbp_ml.R
 \name{ml_predict}
 \alias{ml_predict}
-\title{Predict the Class of New Animals}
+\title{Predict New Animals}
 \usage{
 ml_predict(
   object,
@@ -25,8 +25,9 @@ mapping each new animal (subject) to its covariate level.}
 \item{exclude_timepoints}{Timepoints to leave out. Defaults to the ones excluded in training.}
 }
 \value{
-A list with `sessions` (probability of the positive class for each animal
-  and session) and `animals` (mean probability per animal and predicted class).
+A list with `sessions` (prediction for each animal and session: the
+  probability of the first class, or the predicted value) and `animals` (mean
+  per animal, with the predicted class for classification).
 }
 \description{
 Applies trained models to new session data, e.g. a new experiment processed

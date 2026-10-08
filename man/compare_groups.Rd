@@ -28,7 +28,9 @@ within each parameter; any method of [stats::p.adjust()]. Default `"holm"`.}
 \value{
 A data frame with one row per parameter and pair: `parameter`,
   `group1`, `group2`, `n1`, `n2`, `mean1`, `mean2`, `difference`,
-  `pct_difference` (group2 vs group1), `p`, `p_adj`, `stars`, and `p_omnibus`.
+  `ci_low`, `ci_high` (95% CI of the difference: Welch interval, or Hodges-Lehmann
+  for rank tests), `pct_difference`, `pct_ci_low`, `pct_ci_high` (relative to
+  group1's mean), `p`, `p_adj`, `stars`, and `p_omnibus`.
 }
 \description{
 Runs an omnibus test across groups and pairwise comparisons, separately for
